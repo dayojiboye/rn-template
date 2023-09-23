@@ -26,7 +26,8 @@ type Props = {
 	onLongPress?: (event: GestureResponderEvent) => void;
 	leftIcon?: any;
 	rightIcon?: any;
-	iconProps?: any;
+	leftIconProps?: any;
+	rightIconProps?: any;
 	isLoading?: boolean;
 } & TouchableOpacityProps;
 
@@ -36,17 +37,19 @@ export default function CustomButton({
 	containerStyle,
 	style,
 	labelStyle,
-	activeOpacity = 1,
+	activeOpacity = 0.8,
 	onPress,
 	leftIcon,
 	rightIcon,
-	iconProps,
+	leftIconProps,
+	rightIconProps,
 	isLoading,
 	onLongPress,
 	...props
 }: Props) {
 	const { theme, styles } = useStyles(createStyles);
-	const Icon = leftIcon ? leftIcon : rightIcon;
+	const LeftIcon = leftIcon;
+	const RightIcon = rightIcon;
 	const pressed = useSharedValue(false);
 
 	const tap = Gesture.Tap()
@@ -81,9 +84,9 @@ export default function CustomButton({
 						<ActivityIndicator size="small" color={theme.white} />
 					) : (
 						<>
-							{leftIcon && <Icon {...iconProps} />}
+							{leftIcon && <LeftIcon {...leftIconProps} />}
 							<Text style={[styles.labelStyle, labelStyle]}>{label}</Text>
-							{rightIcon && <Icon {...iconProps} />}
+							{rightIcon && <RightIcon {...rightIconProps} />}
 						</>
 					)}
 				</TouchableOpacity>
@@ -104,7 +107,6 @@ const createStyles = (theme: ThemeType) =>
 			justifyContent: "center",
 			flexDirection: "row",
 			gap: 3,
-			borderRadius: 4,
 		},
 		labelStyle: {
 			fontSize: 16,
